@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  customer:
+    build:
+      ./Customer
+    ports:
+      - "10101:10101"
+    depends_on:
+      - database
+  credit:
+    build:
+      ./Credit
+    ports:
+    - "12121:12121"
+    depends_on:
+      - customer
+  database:
+    image: mysql:8.0.26
+    restart: always
+    environment:
+      MYSQL_USER: credit_user
+      MYSQL_PASSWORD: credit_password
+      MYSQL_ROOT_PASSWORD: credit_password
+      MYSQL_DATABASE: Bank
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    ports:
+    - "3306:3306"

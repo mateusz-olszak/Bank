@@ -3,7 +3,6 @@ package com.bank.credit.client;
 import com.bank.credit.config.CustomerConfig;
 import com.bank.credit.dto.*;
 import com.google.gson.Gson;
-import liquibase.pro.packaged.G;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
