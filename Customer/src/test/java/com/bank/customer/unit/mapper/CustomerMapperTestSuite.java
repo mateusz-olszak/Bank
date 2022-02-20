@@ -21,7 +21,7 @@ public class CustomerMapperTestSuite {
     @Test
     void test_mapToCustomerDto() {
         // Given
-        Customer customer = new Customer("Jan", "Kowalski", "85123456789");
+        Customer customer = new Customer(1,"Jan", "Kowalski", "85123456789");
         // When
         CustomerDto resultCustomerDto = customerMapper.mapToCustomerDto(customer);
         // Then
@@ -56,9 +56,9 @@ public class CustomerMapperTestSuite {
     @Test
     void test_mapToCustomerDtoList() {
         // Given
-        Customer customer1 = new Customer("Jan", "Kowalski", "85123456789");
-        Customer customer2 = new Customer("Jan", "Kowalski", "85123456789");
-        Customer customer3 = new Customer("Jan", "Kowalski", "85123456789");
+        Customer customer1 = new Customer(1,"Jan", "Kowalski", "85123456789");
+        Customer customer2 = new Customer(2,"Jan", "Kowalski", "85123456789");
+        Customer customer3 = new Customer(3,"Jan", "Kowalski", "85123456789");
         List<Customer> customers = List.of(customer1, customer2, customer3);
         // When
         List<CustomerDto> resultCustomersListDto = customerMapper.mapToCustomerDtoList(customers);

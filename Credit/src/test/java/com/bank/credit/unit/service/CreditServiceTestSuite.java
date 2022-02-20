@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,7 +36,7 @@ public class CreditServiceTestSuite {
         CreditDto creditDto = new CreditDto("Hipoteczny",350000,customerDto);
         CustomerClientDto customerClientDto = new CustomerClientDto(1,"Jan","Kowalski","80123456789");
         Credit credit = new Credit(1, 1, "Hipoteczny",350000);
-        when(customerService.searchCustomer(any())).thenReturn(customerClientDto);
+        when(customerService.searchCustomer(any())).thenReturn(Optional.ofNullable(customerClientDto));
         when(creditRepository.save(any())).thenReturn(credit);
         // When
         CreditNumberDto resultCredit = creditService.createCredit(creditDto);
@@ -52,7 +53,7 @@ public class CreditServiceTestSuite {
         CreditDto creditDto = new CreditDto("Hipoteczny",350000,customerDto);
         Credit credit = new Credit(1, 1, "Hipoteczny",350000);
         CustomerIdDto customerIdDto = new CustomerIdDto(1);
-        when(customerService.searchCustomer(any())).thenReturn(null);
+        when(customerService.searchCustomer(any())).thenReturn(Optional.empty());
         when(customerService.createCustomer(customerDto)).thenReturn(customerIdDto);
         when(creditRepository.save(any())).thenReturn(credit);
         // When

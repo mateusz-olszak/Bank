@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +32,7 @@ public class CustomerServiceTestSuite {
         // Given
         CustomerDto customerDto = new CustomerDto("Jan","Kowalski","85123456789");
         CustomerIdDto customerIdDto = new CustomerIdDto(1);
-        when(customerClient.createCustomer(customerDto)).thenReturn(customerIdDto);
+        when(customerClient.createCustomer(customerDto)).thenReturn(Optional.ofNullable(customerIdDto));
         // When
         CustomerIdDto result = customerService.createCustomer(customerDto);
         // Then
@@ -46,9 +47,9 @@ public class CustomerServiceTestSuite {
         CustomerClientDto customerClientDto = new CustomerClientDto(1,"Jan","Kowalski","85123456789");
         when(customerClient.searchCustomer(customerDto)).thenReturn(List.of(customerClientDto));
         // When
-        CustomerClientDto result = customerService.searchCustomer(customerDto);
+        Optional<CustomerClientDto> result = customerService.searchCustomer(customerDto);
         // Then
-        assertEquals(1, result.getCustomerId());
+        assertEquals(1, result.get().getCustomerId());
         verify(customerClient, times(1)).searchCustomer(customerDto);
     }
 

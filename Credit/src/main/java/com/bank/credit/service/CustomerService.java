@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -20,12 +21,12 @@ public class CustomerService {
     }
 
     public CustomerIdDto createCustomer(CustomerDto customerDto) {
-        return customerClient.createCustomer(customerDto);
+        return customerClient.createCustomer(customerDto).get();
     }
 
-    public CustomerClientDto searchCustomer(CustomerDto customerDto) {
+    public Optional<CustomerClientDto> searchCustomer(CustomerDto customerDto) {
         List<CustomerClientDto> customerDtos = customerClient.searchCustomer(customerDto);
-        return customerDtos.size() > 0 ? customerDtos.get(0) : null;
+        return customerDtos.size() > 0 ? Optional.ofNullable(customerDtos.get(0)) : Optional.ofNullable(customerDtos.get(0));
     }
 
     public List<CustomerClientDto> getCustomers(List<Integer> customersIds) {

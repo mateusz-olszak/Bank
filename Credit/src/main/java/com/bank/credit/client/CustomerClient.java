@@ -2,7 +2,6 @@ package com.bank.credit.client;
 
 import com.bank.credit.config.CustomerConfig;
 import com.bank.credit.dto.*;
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class CustomerClient {
         this.customerConfig = customerConfig;
     }
 
-    public CustomerIdDto createCustomer(CustomerDto customerDto) {
+    public Optional<CustomerIdDto> createCustomer(CustomerDto customerDto) {
         LOGGER.info("starting to create new customer");
         URI url = UriComponentsBuilder.fromHttpUrl(customerConfig.getCustomerPath() + CREATE_CUSTOMER)
                 .build().encode().toUri();
@@ -48,10 +47,10 @@ public class CustomerClient {
             params.put("lastName", customerDto.getLastName());
             params.put("pesel", customerDto.getPesel());
             HttpEntity<Map<String, String>> entity = new HttpEntity<>(params, headers);
-            return restTemplate.postForObject(url, entity, CustomerIdDto.class);
+            return Optional.ofNullable(restTemplate.postForObject(url, entity, CustomerIdDto.class));
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -73,7 +72,7 @@ public class CustomerClient {
                     .collect(Collectors.toList());
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -98,7 +97,7 @@ public class CustomerClient {
                     .collect(Collectors.toList());
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return Collections.emptyList();
         }
     }
 }

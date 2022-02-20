@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,9 +24,9 @@ public class CreditService {
     }
 
     public CreditNumberDto createCredit(CreditDto creditDto) {
-        CustomerClientDto customerDto = customerService.searchCustomer(creditDto.getCustomer());
-        if (customerDto != null) {
-            Credit credit = new Credit(customerDto.getCustomerId(),creditDto.getCreditName(),creditDto.getValue());
+        Optional<CustomerClientDto> customerDto = customerService.searchCustomer(creditDto.getCustomer());
+        if (!customerDto.isEmpty()) {
+            Credit credit = new Credit(customerDto.get().getCustomerId(),creditDto.getCreditName(),creditDto.getValue());
             return new CreditNumberDto(creditRepository.save(credit).getId());
         } else {
             CustomerIdDto customerId = customerService.createCustomer(creditDto.getCustomer());

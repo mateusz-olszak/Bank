@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -38,9 +39,9 @@ public class CustomerClientTestSuite {
         when(customerConfig.getCustomerPath()).thenReturn(url);
         when(restTemplate.postForObject(any(URI.class),any(HttpEntity.class),eq(CustomerIdDto.class))).thenReturn(customerIdDto);
         // When
-        CustomerIdDto result = customerClient.createCustomer(customerDto);
+        Optional<CustomerIdDto> result = customerClient.createCustomer(customerDto);
         // Then
-        assertEquals(1,result.getCustomerId());
+        assertEquals(1,result.get().getCustomerId());
         verify(customerConfig, times(1)).getCustomerPath();
         verify(restTemplate, times(1)).postForObject(any(URI.class), any(HttpEntity.class), eq(CustomerIdDto.class));
     }
